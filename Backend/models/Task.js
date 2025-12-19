@@ -1,10 +1,6 @@
-// ==========================================
 // IMPORT MONGOOSE
-// ==========================================
 const mongoose = require('mongoose');
-
 // DEFINE TASK SCHEMA
-
 const taskSchema = new mongoose.Schema({
   
   // TITLE - Required
@@ -51,12 +47,9 @@ const taskSchema = new mongoose.Schema({
   timestamps: true  // Auto-adds createdAt and updatedAt
 });
 
-// ==========================================
 // CREATE MODEL
-// ==========================================
+
 const Task = mongoose.model('Task', taskSchema);  // Singular!
 
-// ==========================================
 // EXPORT MODEL
-// ==========================================
 module.exports = Task;
