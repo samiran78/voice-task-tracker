@@ -41,7 +41,7 @@ exports.parseVoiceTranscript = async (req, res) => {
           console.error('Parse voice error:', error);
           //error can come here from several diffirent points
           ///speicific error 
-          if(error.message.include('API key')||){
+          if(error.message.include('API key')){
             
           }
     }
