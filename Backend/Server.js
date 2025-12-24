@@ -13,8 +13,12 @@ app.use(express.json());
 // 5. TEST ROUTE (Check if server works)
 // IMPORT ROUTES:->
 const taskRoutes = require("./routes/taskRoutes");
+//import voice-route
+const voiceRoutes = require("./routes/voiceRoutes");
 //  USE ROUTES :->
 app.use('/api/tasks',taskRoutes);
+//voice-route
+app.use('/api/voice',voiceRoutes);
 app.get("/api/check", (req, res) => {
     res.json({
         status: 'OK',
