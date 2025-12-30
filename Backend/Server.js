@@ -1,13 +1,21 @@
 const express = require("express");
-const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/DatabaseConnection");
+//install cors
+const cors = require("cors");
 //  2. LOAD ENVIRONMENT VARIABLES
 dotenv.config();
 //create express app
 const app = express();
 // 4. MIDDLEWARE (Functions that process requests)
-app.use(cors());
+
+// Enable CORS - ADD THIS BEFORE OTHER MIDDLEWARE to work frontend and backend toghether
+
+app.use(cors({
+//Allow React-front-end 
+origin: 'http://localhost:3000/', //Allow React-App
+credentials: true
+}));
 app.use(express.json());
 // ============================================
 // 5. TEST ROUTE (Check if server works)

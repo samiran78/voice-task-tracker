@@ -1,7 +1,18 @@
 // Correct import for the current official Google GenAI SDK (Dec 2025)
 const { GoogleGenAI } = require("@google/genai");
-
-// Initialize with your API key from .env
+//VERSION OF NODE HAS UPDATED;
+// let genai;
+// async function getGenAI() {
+//     if (!genai) {
+//         //i have to import -->>require is not needed
+//         const { } = await import("@google/genai");
+//         genai = new GoogleGenAI({
+//             apiKey: process.env.GEMINI_API_KEY
+//         });
+//     }
+//     return genai;
+// }
+// // Initialize with your API key from .env
 const genai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
@@ -41,6 +52,7 @@ User input: "${transcript}"
             model: "gemini-2.5-flash",
             contents: prompt,
         });
+        // const response = await gen
 
         const content = response.text.trim();
 
