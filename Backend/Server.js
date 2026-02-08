@@ -13,8 +13,10 @@ const app = express();
 
 app.use(cors({
 //Allow React-front-end 
-origin: 'http://localhost:3000/', //Allow React-App
-credentials: true
+origin: 'http://localhost:3000', //Allow React-App
+credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 // ============================================

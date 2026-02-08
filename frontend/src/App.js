@@ -29,7 +29,7 @@ function App() {
       }
     } catch (error) {
        setError('Failed to load tasks. Make sure backend is running!');
-      console.error(err);
+      console.error(error);
     }finally{
       setLoading(false); // false when something occurs bad
     }
@@ -115,6 +115,5 @@ function App() {
     </div>
   );
 }
-
 // Export so other files can use it
 export default App;
