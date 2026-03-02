@@ -12,11 +12,9 @@ const app = express();
 // Enable CORS - ADD THIS BEFORE OTHER MIDDLEWARE to work frontend and backend toghether
 
 app.use(cors({
-//Allow React-front-end 
-origin: 'http://localhost:3000', //Allow React-App
-credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+    origin: '*', // Allow all origins during development
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 // ============================================
@@ -26,9 +24,9 @@ const taskRoutes = require("./routes/taskRoutes");
 //import voice-route
 const voiceRoutes = require("./routes/voiceRoutes");
 //  USE ROUTES :->
-app.use('/api/tasks',taskRoutes);
+app.use('/api/tasks', taskRoutes);
 //voice-route
-app.use('/api/voice',voiceRoutes);
+app.use('/api/voice', voiceRoutes);
 app.get("/api/check", (req, res) => {
     res.json({
         status: 'OK',

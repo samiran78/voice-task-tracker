@@ -67,50 +67,36 @@ function App() {
       </header>
 
       <main>
-        <h2>Your Tasks ({tasks.length})</h2>
+        <h2>Your Tasks <span className="task-count">{tasks.length}</span></h2>
+        
          {/* Show loading state */}
-         {loading && <p>Loading tasks...</p>}
+         {loading && <div className="loading-state"><p>Loading tasks with AI...</p></div>}
+         
           {/* Show error if any */}
-        {error && <p style={{color: 'red'}}>{error}</p>}
-        {/* show tasks when no task show 0 in  custom way */}
+        {error && <div className="error-state"><p>{error}</p></div>}
+        
+        {/* show tasks when no task show 0 in custom way */}
         {!loading && !error && tasks.length===0 &&(
-          <p>No tasks yet! Create one from Postman or add create form.</p>
+          <div className="empty-state">
+            <p>No tasks yet! Speak to add your first task.</p>
+          </div>
         )}
-        {/* Use TaskCard component - pass data via props */}
-        {/* <TaskCard
-          title={sampleTask.title}
-          description={sampleTask.description}
-          priority={sampleTask.priority}
-          status={sampleTask.status}
-          dueDate={sampleTask.dueDate}
-        />
-        <TaskCard
-          title={task2.title}
-          description={task2.description}
-          priority={task2.priority}
-          status={task2.status}
-          dueDate={task2.dueDate}
-        />
-        <TaskCard
-          title={task3.title}
-          description={task3.description}
-          priority={task3.priority}
-          status={task3.status}
-          dueDate={task3.dueDate}
-        /> */}
-        {/* showing tasks from backend -- by usuing .map() over tasks Array */}
-        {
-          tasks.map(task =>(
-            <TaskCard 
-            key={task._id} //Unique key for each task
-            title={task.title}
-            description={task.description}
-            priority={task.priority}
-            status={task.status}
-            dueDate={task.dueDate}
-            />
-          ))
-        }
+        
+        {/* grids for tasks */}
+        <div className="tasks-grid">
+          {
+            tasks.map(task =>(
+              <TaskCard 
+              key={task._id}
+              title={task.title}
+              description={task.description}
+              priority={task.priority}
+              status={task.status}
+              dueDate={task.dueDate}
+              />
+            ))
+          }
+        </div>
       </main>
     </div>
   );

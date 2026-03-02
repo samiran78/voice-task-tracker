@@ -5,13 +5,13 @@ import React from "react";
 import './TaskCard.css';
 function TaskCard(props) {
     // This component will return HTML (JSX)
+    const priorityClass = (props.priority || "medium").toLowerCase();
     return (
         <div className="task-card">
-            <p>Task card goes here</p>
             {/* structure the page */}
             <div className="task-header">
                 <h3>{props.title}</h3>
-                <span className={`priority ${props.priority || "medium"}`}>
+                <span className={`priority ${priorityClass}`}>
                     {props.priority}
                 </span>
             </div>
