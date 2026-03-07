@@ -23,10 +23,12 @@ app.use(express.json());
 const taskRoutes = require("./routes/taskRoutes");
 //import voice-route
 const voiceRoutes = require("./routes/voiceRoutes");
+const authRoutes = require("./routes/authRoutes");
 //  USE ROUTES :->
 app.use('/api/tasks', taskRoutes);
 //voice-route
 app.use('/api/voice', voiceRoutes);
+app.use('/api/auth', authRoutes);
 app.get("/api/check", (req, res) => {
     res.json({
         status: 'OK',

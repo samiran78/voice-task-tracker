@@ -2,21 +2,21 @@
 const mongoose = require('mongoose');
 // DEFINE TASK SCHEMA
 const taskSchema = new mongoose.Schema({
-  
+
   // TITLE - Required
   title: {
     type: String,
     required: [true, 'Title is required'],
     trim: true
   },
-  
+
   // DESCRIPTION - Optional
   description: {
     type: String,
     trim: true,
     default: ''
   },
-  
+
   // STATUS - Workflow stage (todo, in-progress, done)
   status: {
     type: String,
@@ -26,7 +26,7 @@ const taskSchema = new mongoose.Schema({
     },
     default: 'todo'
   },
-  
+
   // PRIORITY - Importance level (low, medium, high)
   priority: {
     type: String,
@@ -36,13 +36,20 @@ const taskSchema = new mongoose.Schema({
     },
     default: 'medium'
   },
-  
+
   // DUE DATE - Deadline (optional)
   dueDate: {  // ← camelCase!
     type: Date,
     default: null
+  },
+
+  // USER - Associate task to a specific user
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
   }
-  
+
 }, {
   timestamps: true  // Auto-adds createdAt and updatedAt
 });

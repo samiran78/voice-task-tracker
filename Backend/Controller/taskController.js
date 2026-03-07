@@ -59,7 +59,8 @@ exports.createTask = async (req, res) => {  // ← Singular!
     //check in db - if this tasks present in todo or in-progress state
     const existingTask = await Task.findOne({
       title: { $regex: new RegExp(`^${normalizedTitle}$`, 'i') },  // Case-insensitive
-      status: { $in: ['todo', 'in-progress'] } //only-active state
+      status: { $in: ['todo', 'in-progress'] }, //only-active state
+      user: req.user.id
     })
     if (existingTask) {
       //conflict
@@ -81,7 +82,8 @@ exports.createTask = async (req, res) => {  // ← Singular!
       description: description ? description.trim() : '',
       status: status || 'todo',//by-default
       priority: priority || 'low', //by-default
-      dueDate: dueDate || null
+      dueDate: dueDate || null,
+      user: req.user.id
     });
 
     // Send success response
@@ -125,10 +127,10 @@ exports.getAllTasks = async (req, res) => {
 
     // STEP 3: Get total count (for pagination metadata)
 
-    const totalTasks = await Task.countDocuments();
+    const totalTasks = await Task.countDocuments({ user: req.user.id });
 
     // STEP 4: Get paginated tasks
-    const tasks = await Task.find()
+    const tasks = await Task.find({ user: req.user.id })
       .sort({ createdAt: -1 })  // Newest first
       .skip(skip)               // Skip previous pages
       .limit(limit);            // Limit results per page
@@ -183,6 +185,11 @@ exports.getTaskById = async (req, res) => {
         success: false,
         error: 'Task not found'
       });
+    }
+
+    // Check if user owns task
+    if (task.user.toString() !== req.user.id) {
+      return res.status(401).json({ success: false, error: 'User not authorized' });
     }
 
     // Return task
@@ -253,8 +260,8 @@ exports.updatedTasks = async (req, res) => {
     if (priority) updateData.priority = priority;
     if (dueDate !== undefined) updateData.dueDate = dueDate;
     //update the task..
-    const updatedTask = await Task.findByIdAndUpdate(
-      id,
+    const updatedTask = await Task.findOneAndUpdate(
+      { _id: id, user: req.user.id },
       updateData,
       {
         new: true,           // Return updated document
@@ -302,6 +309,11 @@ exports.deleteTask = async (req, res) => {
         success: false,
         error: 'Task not found'
       });
+    }
+
+    // Check if user owns task
+    if (task.user.toString() !== req.user.id) {
+      return res.status(401).json({ success: false, error: 'User not authorized' });
     }
 
     // STEP 4: Business Rule - Only delete completed tasks

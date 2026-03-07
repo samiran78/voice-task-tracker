@@ -1,13 +1,18 @@
 const express = require("express");
 const router = express.Router();
 //we need express framework coz it's ndejs service-side framework which Offers tools for HTTP methods, routing, middleware, and handling server-side logic.
-const { 
+const {
   createTask,
   getAllTasks,
   getTaskById,
   updatedTasks,
   deleteTask
 } = require("../Controller/taskController");
+
+const { protect } = require('../middleware/authMiddleware');
+
+// Protect all task routes
+router.use(protect);
 
 router.post("/createTask", createTask);
 router.get("/getAllTasks", getAllTasks);

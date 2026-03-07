@@ -1,0 +1,25 @@
+/* Add to end of App.css */
+.header-user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: #a0aec0;
+}
+
+.logout-btn {
+    background: rgba(255, 82, 82, 0.1);
+    color: #ff5252;
+    border: 1px solid rgba(255, 82, 82, 0.3);
+    padding: 5px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 82, 82, 0.2);
+    color: #ff8a8a;
+}
