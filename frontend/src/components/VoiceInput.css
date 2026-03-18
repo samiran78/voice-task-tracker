@@ -1,0 +1,218 @@
+/* ============================================================
+   VoiceInput.css — Styles for the microphone recorder UI
+   
+   DESIGN INTENT:
+   - Glassmorphism card consistent with the app theme
+   - Pulsing red ring animation when mic is active (obvious feedback)
+   - Smooth color transitions on all interactive states
+   ============================================================ */
+
+/* Main container card */
+.voice-input-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 28px 24px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle top-edge highlight for glass effect */
+.voice-input-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent);
+}
+
+/* Section heading */
+.voice-input-title {
+  color: var(--text-main);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Subtitle / instruction text */
+.voice-input-subtitle {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin: 0;
+  text-align: center;
+}
+
+/* Wrapper around the mic button — adds the pulse ring when active */
+.mic-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* The pulsing outer ring — only visible when .listening class is present */
+.mic-area.listening {
+  /* CSS animation: name duration timing-function iteration */
+  animation: pulse-ring 1.5s ease-in-out infinite;
+}
+
+/* Pulse ring keyframe animation */
+@keyframes pulse-ring {
+  0%   { filter: drop-shadow(0 0 0px rgba(248, 113, 113, 0.6)); }
+  50%  { filter: drop-shadow(0 0 18px rgba(248, 113, 113, 0.8)); }
+  100% { filter: drop-shadow(0 0 0px rgba(248, 113, 113, 0.6)); }
+}
+
+/* Mic Button */
+.mic-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%; /* Makes it a circle */
+  border: 2px solid var(--glass-border);
+  background: var(--glass-bg);
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.mic-btn:hover:not(:disabled) {
+  transform: scale(1.08);
+  background: rgba(129, 140, 248, 0.15);
+  border-color: var(--accent-primary);
+}
+
+/* Active (recording) state — red tint */
+.mic-btn.active {
+  background: rgba(248, 113, 113, 0.15);
+  border-color: var(--priority-high);
+  box-shadow: 0 0 20px rgba(248, 113, 113, 0.3);
+}
+
+/* Parsing (waiting for AI) state — muted */
+.mic-btn.parsing {
+  opacity: 0.7;
+  cursor: not-allowed;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Status text below mic button */
+.mic-status {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Live transcript preview box */
+.transcript-box {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  width: 100%;
+  text-align: center;
+}
+
+.transcript-label {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 6px;
+}
+
+.transcript-text {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  margin: 0;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Blink while still receiving (live) speech */
+.transcript-text.live {
+  animation: blink-cursor 1s step-end infinite;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+/* Error banner */
+.voice-error,
+.voice-success {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 0.88rem;
+}
+
+.voice-error {
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: var(--priority-high);
+}
+
+.voice-success {
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  color: var(--priority-low);
+}
+
+/* Dismiss (X) button */
+.dismiss-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-size: 0.9rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+.dismiss-btn:hover { opacity: 1; }
+
+/* Tip text at the bottom */
+.voice-tip {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-align: center;
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* Unsupported browser fallback */
+.voice-input-unsupported {
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: var(--priority-med);
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
