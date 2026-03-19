@@ -1,0 +1,50 @@
+/* ============================================================
+   App-Additions.css — THE "DAMN" UPGRADE
+   ============================================================ */
+
+:root {
+  --neon-pink: #ff0055;
+  --neon-blue: #00fbff;
+  --neon-purple: #4e00ff;
+  --dark-bg: #0a0a12;
+}
+
+body {
+  background-color: var(--dark-bg);
+  color: #fff;
+}
+
+.App {
+  background: radial-gradient(circle at 50% -20%, rgba(78, 0, 255, 0.15), transparent),
+              radial-gradient(circle at 0% 100%, rgba(255, 0, 85, 0.1), transparent),
+              var(--dark-bg) !important;
+}
+
+/* Custom glow for task cards */
+.task-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+              0 0 20px rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* High-priority glow */
+.task-card[data-priority="high"] {
+  border-left: 4px solid var(--neon-pink);
+  box-shadow: inset 5px 0 15px rgba(255, 0, 85, 0.1);
+}
+
+/* Button enhancements */
+.btn-add-task {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+}
+
+.btn-add-task:hover {
+  box-shadow: 0 0 30px rgba(255, 0, 85, 0.6);
+}

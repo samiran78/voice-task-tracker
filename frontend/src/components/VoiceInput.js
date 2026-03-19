@@ -66,6 +66,9 @@ const VoiceInput = ({ onParsed }) => {
   // Success message after parsing (e.g. "✅ Task detected!")
   const [successMsg, setSuccessMsg] = useState(null);
 
+  // Timer for manual silence detection
+  const silenceTimerRef = useRef(null);
+
   // -----------------------------------------------------------
   // REF: recognitionRef
   //
@@ -151,8 +154,17 @@ const VoiceInput = ({ onParsed }) => {
     // We join all results into one string for the live preview.
     // -----------------------------------------------------------
     recognition.onresult = (event) => {
-      // Convert the SpeechRecognitionResultList to a plain array, then map
-      // to get the transcript string from each result's first alternative
+      // Clear the silence timer whenever we hear something new
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+      }
+
+      // Start a new 3-second timer
+      silenceTimerRef.current = setTimeout(() => {
+        console.log("🤫 Silence detected, stopping automatically...");
+        stopListening();
+      }, 3000);
+
       const currentTranscript = Array.from(event.results)
         .map((result) => result[0].transcript)
         .join(" ");
@@ -232,6 +244,11 @@ const VoiceInput = ({ onParsed }) => {
   // stopListening — Manually stop the microphone
   // -----------------------------------------------------------
   const stopListening = useCallback(() => {
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
+
     if (recognitionRef.current) {
       // .stop() triggers the onend event which calls sendToGemini
       recognitionRef.current.stop();

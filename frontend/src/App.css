@@ -10,8 +10,7 @@
 
 /* ---- APP WRAPPER ---- */
 .App {
-  min-height: 100vh;
-  background: var(--bg-gradient);
+  background: radial-gradient(circle at top right, #1a1a2e, #16213e, #0f3460);
   background-attachment: fixed;
   padding: 0 0 60px;
   display: flex;
@@ -23,8 +22,8 @@
    HEADER
    ================================================================ */
 .app-header {
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
+  background: rgba(15, 15, 25, 0.8);
+  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--glass-border);
   padding: 20px 32px;
@@ -140,7 +139,7 @@ main {
 
 /* The purple "Add Task" button */
 .btn-add-task {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #ff0055, #4e00ff);
   border: none;
   border-radius: 10px;
   color: #fff;
@@ -190,10 +189,11 @@ main {
 
 /* Active (selected) tab */
 .filter-tab.active {
-  background: rgba(129, 140, 248, 0.15);
-  border-color: var(--accent-primary);
-  color: var(--accent-primary);
+  background: rgba(255, 0, 85, 0.15);
+  border-color: #ff0055;
+  color: #ff0055;
   font-weight: 600;
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
 }
 
 /* Count badge inside each tab */
