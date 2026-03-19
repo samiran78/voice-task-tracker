@@ -60,6 +60,19 @@ app.get("/api/check", (req, res) => {
         message: 'Server is running!'
     })
 })
+// Root Route: Welcome Message
+app.get("/", (req, res) => {
+    res.status(200).send(`
+        <div style="font-family: sans-serif; text-align: center; padding-top: 50px;">
+            <h1 style="color: #2c3e50;">🚀 Voice Task Tracker API is LIVE!</h1>
+            <p style="color: #7f8c8d;">This is the backend server for your AI-powered task manager.</p>
+            <div style="margin-top: 20px;">
+                <a href="/api/check" style="text-decoration: none; background: #3498db; color: white; padding: 10px 20px; border-radius: 5px;">Check Health Status</a>
+            </div>
+            <p style="margin-top: 30px; font-size: 0.9em; color: #95a5a6;">Connect your frontend to this URL: <strong>${req.protocol}://${req.get('host')}/api</strong></p>
+        </div>
+    `);
+});
 //  6. CONNECT TO DATABASE & START SERVER
 const port = process.env.PORT || 5000;
 //we should sure that, only start my application-SERVER after database connection starts.
