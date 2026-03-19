@@ -1,4 +1,5 @@
 const express = require("express");
+console.log("🚀 --- DEPLOYMENT VERSION: 2.0 (STABILITY FIX) ---");
 const dotenv = require("dotenv");
 const connectDB = require("./config/DatabaseConnection");
 //install cors
@@ -7,8 +8,6 @@ const cors = require("cors");
 const helmet = require("helmet");
 //install express-rate-limit
 const rateLimit = require("express-rate-limit");
-//install express-mongo-sanitize
-// const expressMongoSanitize = require("express-mongo-sanitize"); // Disabled due to Express 5 incompatibility
 const morgan = require("morgan"); //for logging
 //  2. LOAD ENVIRONMENT VARIABLES
 dotenv.config();
@@ -16,7 +15,6 @@ dotenv.config();
 const app = express();
 //security
 app.use(helmet());
-// app.use(expressMongoSanitize()); // Disabled due to Express 5 incompatibility
 app.use(morgan("dev"));
 // 4. MIDDLEWARE (Functions that process requests)
 //Rate limiter:->
