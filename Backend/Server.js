@@ -3,14 +3,39 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/DatabaseConnection");
 //install cors
 const cors = require("cors");
+//install helmet
+const helmet = require("helmet");
+//install express-rate-limit
+const rateLimit = require("express-rate-limit");
+//install express-mongo-sanitize
+const expressMongoSanitize = require("express-mongo-sanitize");
+const morgan = require("morgan"); //for logging
 //  2. LOAD ENVIRONMENT VARIABLES
 dotenv.config();
 //create express app
 const app = express();
+//security
+app.use(helmet());
+app.use(expressMongoSanitize());
+app.use(morgan("dev"));
 // 4. MIDDLEWARE (Functions that process requests)
-
+//Rate limiter:->
+// Rate limiting says: one IP address can only make X requests in Y time window. 
+// After that, you return a 429 error and ignore them until the window resets.
 // Enable CORS - ADD THIS BEFORE OTHER MIDDLEWARE to work frontend and backend toghether
-
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: { success: false, error: 'Too many requests, slow down.' }
+});
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 15, // brute force protection
+    message: { success: false, error: 'Too many auth attempts.' }
+});
+//aplying limiter
+app.use('/api/auth', authLimiter);  // specific first ✅
+app.use('/api', limiter);           // general second ✅
 app.use(cors({
     origin: '*', // Allow all origins during development
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
@@ -27,6 +52,8 @@ const authRoutes = require("./routes/authRoutes");
 //  USE ROUTES :->
 app.use('/api/tasks', taskRoutes);
 //voice-route
+// Rate limiting says: one IP address can only make X requests in Y time window. 
+// After that, you return a 429 error and ignore them until the window resets.
 app.use('/api/voice', voiceRoutes);
 app.use('/api/auth', authRoutes);
 app.get("/api/check", (req, res) => {
